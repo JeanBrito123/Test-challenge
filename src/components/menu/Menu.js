@@ -21,56 +21,56 @@ const Menu = (props) => {
 
   const handleChange = () => {
     setCheckeds(!checkeds);
-    dispatch(colors({...theme, status: !checkeds }))
+    dispatch(colors({ ...theme, status: !checkeds }))
   };
   return (
-    <React.Fragment>
-    <Container
-      {...{
-        width: "100%",
-        height: "60px",
-        display: "grid",
-        displayXss: "flex",
-        gridColumnsSm: "80px auto 100px",
-        gridColumns: "70px 500px auto 100px",
-        backgroundColor: background,
-        alignItems: "center",
-        justifyItems: "center",
-        justicontentXss: "space-between",
-        position:"fixed",
-        top: "0px",
-        zIndex: "99999999",
-        boxShadow: "3px 3px 3px gray"
-      }}
-    >
+    <Container>
       <Container
-        {...{ color: (theme || {}).color, display: "grid", alignItems: "center", justifyItems: "center", padding: "0px 20px" }}
-        onClick={() => setOpen(!open)}
+        {...{
+          width: "100%",
+          height: "60px",
+          display: "grid",
+          displayXss: "flex",
+          gridColumnsSm: "80px auto 100px",
+          gridColumns: "70px 500px auto 100px",
+          backgroundColor: background,
+          alignItems: "center",
+          justifyItems: "center",
+          justicontentXss: "space-between",
+          position: "fixed",
+          top: "0px",
+          zIndex: "99999999",
+          boxShadow: "3px 3px 3px gray"
+        }}
       >
-        <div> <MenuIcon fontSize="large" /> </div>
+        <Container
+          {...{ color: (theme || {}).color, display: "grid", alignItems: "center", justifyItems: "center", padding: "0px 20px" }}
+          onClick={() => setOpen(!open)}
+        >
+          <div> <MenuIcon fontSize="large" /> </div>
+        </Container>
+        <Container {...{ color: "#ffffff", display: "grid", alignItems: "center", justifyItems: "center", displaySmm: "none" }}>
+          <Search />
+        </Container>
+        <Container
+          {...{ width: "100%", display: "flex", justifyContentSm: "center", displayXss: "none" }}
+        >
+          <Buttons {...{ icons: <HomeIcon />, label: "Inicio", action: () => navigate("/") }} />
+          <Buttons {...{ icons: <AddBoxIcon />, label: "Agregar", action: () => navigate("/add-products") }} />
+          <Buttons {...{ icons: <FormatListNumberedIcon />, label: "Productos", action: () => navigate("/list-products") }} />
+          <Buttons {...{ icons: <AddShoppingCartIcon />, label: "Carrito", action: () => navigate("/cars") }} />
+        </Container>
+        <Container padding="0px 20px" >
+          <Switch
+            checked={checkeds}
+            onChange={handleChange}
+            color="primary"
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+          />
+        </Container>
       </Container>
-      <Container {...{ color: "#ffffff", display: "grid", alignItems: "center", justifyItems: "center", displaySmm: "none" }}>
-        <Search />
-      </Container>
-      <Container
-        {...{ width: "100%", display: "flex", justifyContentSm: "center", displayXss: "none" }}
-      >
-        <Buttons {...{ icons: <HomeIcon />, label: "Inicio", action : () => navigate("/") }} />
-        <Buttons {...{ icons: <AddBoxIcon />, label: "Agregar", action : () => navigate("/add-products") }} />
-        <Buttons {...{ icons: <FormatListNumberedIcon />, label: "Productos", action : () => navigate("/list-products") }} />
-        <Buttons {...{ icons: <AddShoppingCartIcon />, label: "Carrito", action : () => navigate("/cars") }} />
-      </Container>
-      <Container padding="0px 20px" >
-        <Switch
-          checked={checkeds}
-          onChange={handleChange}
-          color="primary"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
-        />
-      </Container>
+      <TemporaryDrawer {...{ open, setOpen }} />
     </Container>
-    <TemporaryDrawer {...{ open, setOpen }} />
-    </React.Fragment>
   )
 }
 
