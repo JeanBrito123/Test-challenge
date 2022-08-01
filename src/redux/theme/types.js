@@ -1,0 +1,2 @@
+export const COLORS_STAR = 'COLORS_STAR';
+export const COLORS_COMPLETE = 'COLORS_COMPLETE';

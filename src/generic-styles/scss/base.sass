@@ -1,0 +1,34 @@
+@mixin welcome($atr, $atr2)
+  background-color: $atr
+  color: $atr2
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 63vh
+
+@mixin text-welcome()
+  font-size: 50px
+  font-weight: bold
+  display: flex
+  justify-content: center
+  align-items: center
+  @media screen and ( max-width: 620px )
+    display: grid
+    justify-items: center
+
+html, body 
+  font-family: var(--font-ptsans)
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+.container-home
+  @include welcome(#EDF0F5, #1b2021)
+  &-dark
+    @include welcome(#1b2021, #ffffff)
+
+.welcome div 
+  padding: 0 10px
+.welcome
+  @include text-welcome()
