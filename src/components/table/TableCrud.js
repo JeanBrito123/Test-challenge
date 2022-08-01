@@ -54,7 +54,6 @@ const TableCrud = (props) => {
   const { data, setInfo, setOpen, handleDeleteProduct, theme } = props;
   const classes = useStyles();
 
-  console.log((theme || {}).status);
   return (
     <TableContainer className={classes.root}>
       <Table className={clsx(classes.table, (theme || {}).status ? classes.dark : classes.default)} aria-label="simple table">

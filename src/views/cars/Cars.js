@@ -1,5 +1,4 @@
-import React, { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { Fragment, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Container } from '@material-ui/core';
 import BasicTable from "../../components/table/Table";
@@ -9,9 +8,9 @@ import { Container as Div} from "../../generic-styles/Container";
 import Buttons from "../../components/button/Buttons";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { SimpleAlerts } from "../../components/modal/Alerts";
 
 const Cards = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const list = useSelector(state => {
     return state.listProducts;
@@ -22,6 +21,7 @@ const Cards = () => {
   const theme = useSelector(state => {
     return state.colors.colors;
   })
+  const [messager, setMessager] = useState({ text: "", type: null })
   const operations = (data) => {
     let acount = 0, totalPrice = 0;
     if (data.length) {
@@ -34,8 +34,6 @@ const Cards = () => {
     return { name: "Total", acount, totalPrice }
   }
   const handleBuy = () => {
-    console.log("data.products", data.products);
-    console.log("list.listProducts", list.listProducts);
     if (list && list.listProducts) {
       let res = data.products.reduce((all, item) => {
         let it = list.listProducts.find(e => e.id === item.id);
@@ -44,10 +42,13 @@ const Cards = () => {
         }
         return [...all, item];
       }, []);
-      console.log("res", res);
       dispatch(putProducts(res));
       dispatch(addlist([]));
-      navigate("/list-products");
+      setMessager({
+        status: true,
+        text: "Su compra se realizo satisfactoriamente",
+        type: "success"
+      });
     }
   }
   return (
@@ -74,12 +75,22 @@ const Cards = () => {
             <Buttons
                 label="Limpiar"
                 icons={<DeleteForeverIcon />}
-                action={(list && list.listProducts ? () => dispatch(addlist([])) : () => { })}
+                action={(list && list.listProducts ? () => {
+                  dispatch(addlist([]));
+                  setMessager({
+                    status: true,
+                    text: "Productos del carrito eliminados satisfactoriamente",
+                    type: "success"
+                  });
+                  } : () => { })}
                 {...{ styles: { width: "100%", maxWidth: "120px", height: "50px" }}}
               />
           </Div>
         </Div>
       </Container>
+      {(messager || {}).status ? (
+        <SimpleAlerts {...{ ...messager, setMessager }} />
+      ) : null}
     </Fragment>
   );
 }

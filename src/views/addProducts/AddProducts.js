@@ -9,6 +9,7 @@ import Buttons from '../../components/button/Buttons';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CustomDialogs from "../../components/modal/ModalDialog";
 import { addlist } from "../../redux/cars";
+import { SimpleAlerts } from "../../components/modal/Alerts";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -28,6 +29,7 @@ const ListProducts = () => {
     return state.colors.colors;
   })
   const [open, setOpen] = useState(false)
+  const [messager, setMessager] = useState({ text: "", type: null })
   const [info, setInfo] = useState({})
 
   useEffect(() => {
@@ -43,18 +45,26 @@ const ListProducts = () => {
   };
   const handleCreateProducts = (values) => {
     if (data && data.products) {
-      values = { ...values, id: data.products.length + 1 }
+      values = { ...values, id:  data.products[data.products.length - 1].id + 1 }
       let res = data.products;
       res.push(values);
       dispatch(putProducts(res))
       setInfo({})
       setOpen(false)
+      setMessager({
+        status: true,
+        text: "Producto creado satisfactoriamente",
+        type: "success"
+      });
     }
   }
   const handleUpdateProducts = (values) => {
+    let confirm = false;
+    setMessager({ status: false, text: "", type: null });
     if (data && data.products) {
       let res = data.products.reduce((all, it) => {
         if (it.id === values.id) {
+          confirm = true;
           return [...all, values]
         }
         return [...all, it]
@@ -62,9 +72,19 @@ const ListProducts = () => {
       dispatch(putProducts(res))
       setInfo({})
       setOpen(false)
+      if (confirm) {
+        setMessager({
+          status: true,
+          text: "Producto editado satisfactoriamente",
+          type: "success"
+        });
+        return;
+      }
     }
   }
   const handleDeleteProduct = (id) => {
+    setMessager({ status: false, text: "", type: null });
+    let confirm = false;
     let res = data.products.reduce((all, it) => {
       if (it.id === id) {
         return all
@@ -73,11 +93,25 @@ const ListProducts = () => {
     }, []);
     let list = listCars.listProducts.reduce((all, it) => {
       if (it.id === id) {
+        confirm = true;
         return all
       }
       return [...all, it]
     }, []);
-
+    if (confirm) {
+      setMessager({
+        status: true,
+        text: "Producto no puede ser eliminado ya que existe en un carrito",
+        type: "error"
+      });
+      return;
+    } else {
+      setMessager({
+        status: true,
+        text: "Producto eliminado satisfactoriamente",
+        type: "success"
+      });
+    }
     dispatch(addlist([...list]))
     dispatch(putProducts(res))
   }
@@ -127,6 +161,9 @@ const ListProducts = () => {
           data: info
         }}
       />
+      {(messager || {}).status ? (
+        <SimpleAlerts {...{ ...messager, setMessager }} />
+      ) : null}
     </Fragment>
   );
 }

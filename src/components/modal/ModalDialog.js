@@ -105,6 +105,7 @@ const CustomDialogs = ({ open, setOpen, action, data }) => {
       setErrors("El Campo nombre es requerido")
       return
     }
+    setValues({})
     action(values)
   }
   return (

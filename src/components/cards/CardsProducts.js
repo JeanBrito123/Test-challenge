@@ -54,7 +54,6 @@ const Cards = (props) => {
         }
         return [...all, e]
       }, []);
-      console.log("res", res)
       if (it) {
         dispatch(addlist([...res]))
       } else {

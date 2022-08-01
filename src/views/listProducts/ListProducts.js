@@ -48,7 +48,7 @@ const ListProducts = () => {
         maxHeight="570px"
       >
         {data && data.products && data.products.length ? data.products.map((e, i) => {
-          return (
+          return e && e.acount > 0 && (
             <Cards
               key={i}
               {...e}
