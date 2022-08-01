@@ -1,9 +1,10 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import Cards from "../../components/cards/CardsProducts";
 import Container from "../../generic-styles/Container";
 import Text from "../../generic-styles/Text";
 import { getProducts } from "../../redux/products";
+import { Alerts } from "../../components/modal/Alerts";
 
 const ListProducts = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const ListProducts = () => {
   const theme = useSelector(state => {
     return state.colors.colors;
   })
+  const [messager, setMessager] = useState({ text: "", type: null })
 
   useEffect(() => {
     if (data && !data.products) {
@@ -52,11 +54,15 @@ const ListProducts = () => {
             <Cards
               key={i}
               {...e}
+              setData={setMessager}
             />
           )
         })
         : null}
       </Container>
+      {(messager || {}).status ? (
+        <Alerts {...{ ...messager, setMessager, milisecond: 1000 }} />
+      ) : null}
     </Fragment>
   );
 }

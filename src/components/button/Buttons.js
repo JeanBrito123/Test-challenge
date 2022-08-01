@@ -4,7 +4,7 @@ import Btn from '../../generic-styles/Button';
 
 
 const Buttons = (props) => {
-  const { action, label, icons, styles, disabled } = props;
+  const { action, label, icons, styles, disabled = false } = props;
   const theme = useSelector(state => {
     return state.colors.colors;
   })
@@ -18,7 +18,7 @@ const Buttons = (props) => {
         ...styles
       }}
       disabled={disabled}
-      onClick = {action ? action : () => {}}
+      onClick = {!disabled && action ? action : () => {}}
     >
       {icons ? icons : null} {label}
     </Btn>

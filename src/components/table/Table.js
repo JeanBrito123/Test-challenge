@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Table from '@material-ui/core/Table';
@@ -46,37 +46,46 @@ const formatter = new Intl.NumberFormat('en-US', {
 const BasicTable = ({ data, total, theme }) => {
   const classes = useStyles();
   return (
-    <TableContainer className={classes.root}>
-      <Table  className={clsx(classes.table, (theme || {}).status ? classes.dark : classes.default)} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Producto</TableCell>
-            <TableCell align="center">cantidad</TableCell>
-            <TableCell align="center">Precio</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data && data.length ? data.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell align="center" component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="center">{row.acount}</TableCell>
-              <TableCell align="center">{formatter.format(row.price)}</TableCell>
+    <Fragment>
+      <TableContainer className={classes.root}>
+        <Table className={clsx(classes.table, (theme || {}).status ? classes.dark : classes.default)} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Producto</TableCell>
+              <TableCell align="center">cantidad</TableCell>
+              <TableCell align="right">Precio</TableCell>
             </TableRow>
-          )) : null}
-          {total ? (
-            <TableRow key={total.name}>
-              <TableCell align="center" component="th" scope="row">
-                {total.name}
-              </TableCell>
-              <TableCell align="center">{total.acount}</TableCell>
-              <TableCell align="center">{formatter.format(total.totalPrice)}</TableCell>
-            </TableRow>
-          ) :  null}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data && data.length ? data.map((row) => (
+              <TableRow key={row.name}>
+                <TableCell align="left" component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="center">{row.acount}</TableCell>
+                <TableCell align="right">{formatter.format(row.price)}</TableCell>
+              </TableRow>
+            )) : null}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TableContainer className={classes.root}>
+        <Table className={clsx(classes.table, (theme || {}).status ? classes.dark : classes.default)} aria-label="simple table">
+          <TableBody>
+            {total ? (
+              <TableRow key={total.name}>
+                <TableCell align="left">
+                  <strong>Total compra</strong>
+                </TableCell>
+                <TableCell align="right">
+                  <strong>{formatter.format(total.totalPrice)}</strong>
+                </TableCell>
+              </TableRow>
+            ) : null}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Fragment>
   );
 }
 

@@ -34,6 +34,7 @@ const Cards = (props) => {
     return state.listProducts;
   });
   const { name, price, acount, img, id } = props;
+  const { setData } = props;
   const [maxproducts, setMaxproducts] = useState(0);
   const [values, setValues] = useState(((list || {}).listProducts || []).find(e => e.id === id));
   const classes = useStyles();
@@ -45,6 +46,11 @@ const Cards = (props) => {
         if (e.id === id && maxproducts === 0) {
           it = true;
           setValues({ ...e, acount: maxproducts })
+          setData({
+            status: true,
+            text: "Producto eliminado satisfactoriamente",
+            type: "success"
+          });
           return all
         }
         if (e.id === id) {
@@ -55,12 +61,27 @@ const Cards = (props) => {
         return [...all, e]
       }, []);
       if (it) {
+        setData({
+          status: true,
+          text: "Producto modificado satisfactoriamente",
+          type: "success"
+        });
         dispatch(addlist([...res]))
       } else {
+        setData({
+          status: true,
+          text: "Producto agregado satisfactoriamente",
+          type: "success"
+        });
         setValues({ ...props, acount: maxproducts })
         dispatch(addlist([...res, { ...props, acount: maxproducts }]))
       }
     } else {
+      setData({
+        status: true,
+        text: "Producto agregado satisfactoriamente",
+        type: "success"
+      });
       setValues({ ...props, acount: maxproducts })
       dispatch(addlist([{ ...props, acount: maxproducts }]))
     }

@@ -22,7 +22,7 @@ const Layouts = ({ children }) => {
   [checkeds]);
   return (
     <Container
-      className={theme.status ? "layouts-dark" : "layouts"}
+      className={(theme || {}).status ? "layouts-dark" : "layouts"}
       backgroundColor={(theme || {}).background}
       height="100vh"
     >

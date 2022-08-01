@@ -9,7 +9,7 @@ import Buttons from '../../components/button/Buttons';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CustomDialogs from "../../components/modal/ModalDialog";
 import { addlist } from "../../redux/cars";
-import { SimpleAlerts } from "../../components/modal/Alerts";
+import { Alerts } from "../../components/modal/Alerts";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -91,7 +91,7 @@ const ListProducts = () => {
       }
       return [...all, it]
     }, []);
-    let list = listCars.listProducts.reduce((all, it) => {
+    let list = (listCars.listProducts || []).reduce((all, it) => {
       if (it.id === id) {
         confirm = true;
         return all
@@ -162,7 +162,7 @@ const ListProducts = () => {
         }}
       />
       {(messager || {}).status ? (
-        <SimpleAlerts {...{ ...messager, setMessager }} />
+        <Alerts {...{ ...messager, setMessager }} />
       ) : null}
     </Fragment>
   );

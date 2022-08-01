@@ -8,7 +8,7 @@ import { Container as Div} from "../../generic-styles/Container";
 import Buttons from "../../components/button/Buttons";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { SimpleAlerts } from "../../components/modal/Alerts";
+import { Alerts } from "../../components/modal/Alerts";
 
 const Cards = () => {
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const Cards = () => {
   }
   return (
     <Fragment>
-      <Container>
+      <Container maxWidth="md">
         <Div padding="50px 0 0 0">
         <BasicTable
           data={((list || {}).listProducts || [])}
@@ -66,6 +66,7 @@ const Cards = () => {
               <Buttons
                 label="Comprar"
                 icons={<AddShoppingCartIcon />}
+                disabled={((list || {}).listProducts || []).length ? false : true}
                 action={list && list.listProducts ? () => handleBuy() : () => { }}
                 {...{ styles: { width: "100%", maxWidth: "120px", height: "50px" }}}
               />
@@ -75,6 +76,7 @@ const Cards = () => {
             <Buttons
                 label="Limpiar"
                 icons={<DeleteForeverIcon />}
+                disabled={((list || {}).listProducts || []).length ? false : true}
                 action={(list && list.listProducts ? () => {
                   dispatch(addlist([]));
                   setMessager({
@@ -89,7 +91,7 @@ const Cards = () => {
         </Div>
       </Container>
       {(messager || {}).status ? (
-        <SimpleAlerts {...{ ...messager, setMessager }} />
+        <Alerts {...{ ...messager, setMessager, milisecond: 5000 }} />
       ) : null}
     </Fragment>
   );
